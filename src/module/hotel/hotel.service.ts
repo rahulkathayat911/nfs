@@ -26,17 +26,17 @@ export class HotelService {
         return hotel;
     }
 
-    static async createRoomType(name: string, description: string, capacity: number, price: string, hotelId: number) {
-        const hotel = await db.orm.public.Hotel.where({ id: hotelId }).first();
+    static async createRoomType(data: { name: string, description: string, capacity: number, price: string, hotelId: number }) {
+        const hotel = await db.orm.public.Hotel.where({ id: data.hotelId }).first();
         if (!hotel) {
             throw new Error("Hotel not found, in create RoomType")
         }
         return await db.orm.public.RoomType.create({
-            name,
-            description,
-            capacity,
-            price,
-            hotelId,
+            name: data.name,
+            description: data.description,
+            capacity: data.capacity,
+            price: data.price,
+            hotelId: data.hotelId,
         })
 
     }
