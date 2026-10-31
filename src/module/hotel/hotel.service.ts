@@ -40,15 +40,15 @@ export class HotelService {
         })
 
     }
-    static async createRoom(roomNumber: string, hotelId: number, roomTypeId: number) {
-        const room = await db.orm.public.Room.where({ roomNumber: roomNumber, hotelId: hotelId }).first();
+    static async createRoom(data: { roomNumber: string, hotelId: number, roomTypeId: number }) {
+        const room = await db.orm.public.Room.where({ roomNumber: data.roomNumber, hotelId: data.hotelId }).first();
         if (room) {
             throw new Error("This room number already exist")
         }
         return db.orm.public.Room.create({
-            roomNumber,
-            roomTypeId,
-            hotelId
+            roomNumber: data.roomNumber,
+            roomTypeId: data.roomTypeId,
+            hotelId: data.hotelId
         })
     }
 }

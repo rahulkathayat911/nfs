@@ -64,4 +64,25 @@ export class HotelController {
             return res.status(500).json({ success: false, message: error.message })
         }
     }
+
+    static async createRoom(res: Response, req: Request) {
+        try {
+            const hotelId = Number(req.params.id)
+            const { roomNumber, roomTypeId } = req.body
+
+            if (isNaN(hotelId) || !roomNumber || !roomTypeId) {
+                return res.status(400).json({ success: false, message: "Missing required fields to create room" })
+            } else {
+                const room = await HotelService.createRoom({
+                    roomNumber: String(roomNumber),
+                    roomTypeId: Number(roomTypeId),
+                    hotelId
+                })
+                return res.status(201).json({ success: true, message: "room added successfully!", data: room })
+            }
+
+        } catch (error: any) {
+            return res.status(400).json({ success: false, message: error.message })
+        }
+    }
 }
